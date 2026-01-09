@@ -41,7 +41,14 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
+      - name: Set Azure Credentials for Terraform
+        run: |
+          $creds = '${{ secrets.AZURE_CREDENTIALS }}' | ConvertFrom-Json
+          echo "ARM_CLIENT_ID=$($creds.clientId)" >> $env:GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=$($creds.clientSecret)" >> $env:GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=$($creds.subscriptionId)" >> $env:GITHUB_ENV
+          echo "ARM_TENANT_ID=$($creds.tenantId)" >> $env:GITHUB_ENV
+        shell: pwsh
       - name: Terraform Init
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: terraform init -backend-config="resource_group_name=${{ secrets.TF_STATE_RG }}" -backend-config="storage_account_name=${{ secrets.TF_STATE_SA }}" -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER }}" -backend-config="key=dev.tfstate"
@@ -107,6 +114,15 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Azure Credentials for Terraform
+        run: |
+          $creds = '${{ secrets.AZURE_CREDENTIALS }}' | ConvertFrom-Json
+          echo "ARM_CLIENT_ID=$($creds.clientId)" >> $env:GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=$($creds.clientSecret)" >> $env:GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=$($creds.subscriptionId)" >> $env:GITHUB_ENV
+          echo "ARM_TENANT_ID=$($creds.tenantId)" >> $env:GITHUB_ENV
+        shell: pwsh
 
       - name: Terraform Init
         working-directory: ${{ env.WORKING_DIRECTORY }}
