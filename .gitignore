@@ -15,12 +15,11 @@
 **/.terraform/*
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
 crash.log
 crash.*.log
 *.tfvars
 !terraform.dev.tfvars
-!terraform.prod.tfvars
-!terraform.tfvars.example
 *.tfvars.json
 override.tf
 override.tf.json
