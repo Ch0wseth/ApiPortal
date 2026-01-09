@@ -11,6 +11,32 @@
 *.sln.docstates
 *.env
 
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+!terraform.dev.tfvars
+!terraform.prod.tfvars
+!terraform.tfvars.example
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+tfplan
+*.tfplan
+
+# Terraform credentials
+service-principal-credentials.json
+
+# Azure
+.azure/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
