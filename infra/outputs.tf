@@ -30,20 +30,30 @@ output "apim_premium_id" {
 
 output "workspace1_name" {
   description = "Nom du premier workspace"
-  value       = azurerm_api_management_gateway_api.workspace1.name
+  value       = azurerm_api_management_workspace.workspace1.name
+}
+
+output "workspace1_id" {
+  description = "ID du premier workspace"
+  value       = azurerm_api_management_workspace.workspace1.id
 }
 
 output "workspace2_name" {
   description = "Nom du deuxième workspace"
-  value       = azurerm_api_management_gateway_api.workspace2.name
+  value       = azurerm_api_management_workspace.workspace2.name
+}
+
+output "workspace2_id" {
+  description = "ID du deuxième workspace"
+  value       = azurerm_api_management_workspace.workspace2.id
 }
 
 output "api_center_name" {
   description = "Nom de l'instance API Center"
-  value       = azurerm_api_center_service.api_center.name
+  value       = azurerm_api_center.api_center.name
 }
 
 output "api_center_id" {
   description = "ID de l'instance API Center"
-  value       = azurerm_api_center_service.api_center.id
+  value       = azurerm_api_center.api_center.id
 }
