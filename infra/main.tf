@@ -83,6 +83,9 @@ resource "azurerm_resource_group_template_deployment" "api_center" {
         "name" : var.api_center_name,
         "location" : azurerm_resource_group.rg.location,
         "tags" : var.tags,
+        "sku" : {
+          "name" : "Free"
+        },
         "properties" : {}
       }
     ],

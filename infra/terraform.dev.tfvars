@@ -1,8 +1,8 @@
 # Configuration pour l'environnement de développement
 resource_group_name = "rg-api-portal-dev"
 location            = "francecentral"
-apim_premium_name   = "apim-premium-dev"
-api_center_name     = "apic-portal-dev"
+apim_premium_name   = "apim-premium-dev-1161"
+api_center_name     = "apic-portal-dev-1161"
 publisher_name      = "Organisation Dev"
 publisher_email     = "dev@votredomaine.com"
 
