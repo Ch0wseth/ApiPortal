@@ -19,7 +19,7 @@ resource "azurerm_resource_group" "rg" {
   tags = var.tags
 }
 
-# API Management Instance Premium avec Workspaces
+# API Management Instance Premium
 resource "azurerm_api_management" "apim_premium" {
   name                = var.apim_premium_name
   location            = azurerm_resource_group.rg.location
@@ -31,27 +31,66 @@ resource "azurerm_api_management" "apim_premium" {
   tags = var.tags
 }
 
-# Workspace 1
-resource "azurerm_api_management_workspace" "workspace1" {
-  name              = var.workspace1_name
-  api_management_id = azurerm_api_management.apim_premium.id
-  display_name      = var.workspace1_display_name
-  description       = var.workspace1_description
-}
-
-# Workspace 2
-resource "azurerm_api_management_workspace" "workspace2" {
-  name              = var.workspace2_name
-  api_management_id = azurerm_api_management.apim_premium.id
-  display_name      = var.workspace2_display_name
-  description       = var.workspace2_description
-}
-
-# API Center
-resource "azurerm_api_center" "api_center" {
-  name                = var.api_center_name
-  location            = azurerm_resource_group.rg.location
+# Déploiement des Workspaces APIM via ARM template
+resource "azurerm_resource_group_template_deployment" "apim_workspaces" {
+  name                = "apim-workspaces-deployment"
   resource_group_name = azurerm_resource_group.rg.name
+  deployment_mode     = "Incremental"
 
-  tags = var.tags
+  template_content = jsonencode({
+    "$schema" : "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion" : "1.0.0.0",
+    "parameters" : {},
+    "resources" : [
+      {
+        "type" : "Microsoft.ApiManagement/service/workspaces",
+        "apiVersion" : "2023-05-01-preview",
+        "name" : "${azurerm_api_management.apim_premium.name}/${var.workspace1_name}",
+        "properties" : {
+          "displayName" : var.workspace1_display_name,
+          "description" : var.workspace1_description
+        }
+      },
+      {
+        "type" : "Microsoft.ApiManagement/service/workspaces",
+        "apiVersion" : "2023-05-01-preview",
+        "name" : "${azurerm_api_management.apim_premium.name}/${var.workspace2_name}",
+        "properties" : {
+          "displayName" : var.workspace2_display_name,
+          "description" : var.workspace2_description
+        }
+      }
+    ]
+  })
+
+  depends_on = [azurerm_api_management.apim_premium]
+}
+
+# Azure API Center
+resource "azurerm_resource_group_template_deployment" "api_center" {
+  name                = "api-center-deployment"
+  resource_group_name = azurerm_resource_group.rg.name
+  deployment_mode     = "Incremental"
+
+  template_content = jsonencode({
+    "$schema" : "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion" : "1.0.0.0",
+    "parameters" : {},
+    "resources" : [
+      {
+        "type" : "Microsoft.ApiCenter/services",
+        "apiVersion" : "2024-03-01",
+        "name" : var.api_center_name,
+        "location" : azurerm_resource_group.rg.location,
+        "tags" : var.tags,
+        "properties" : {}
+      }
+    ],
+    "outputs" : {
+      "apiCenterId" : {
+        "type" : "string",
+        "value" : "[resourceId('Microsoft.ApiCenter/services', '${var.api_center_name}')]"
+      }
+    }
+  })
 }

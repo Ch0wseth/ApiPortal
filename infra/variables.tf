@@ -17,7 +17,7 @@ variable "apim_premium_name" {
 }
 
 variable "workspace1_name" {
-  description = "Nom du premier workspace"
+  description = "Nom du premier workspace APIM"
   type        = string
   default     = "workspace-team-a"
 }
@@ -35,7 +35,7 @@ variable "workspace1_description" {
 }
 
 variable "workspace2_name" {
-  description = "Nom du deuxième workspace"
+  description = "Nom du deuxième workspace APIM"
   type        = string
   default     = "workspace-team-b"
 }
@@ -53,7 +53,7 @@ variable "workspace2_description" {
 }
 
 variable "api_center_name" {
-  description = "Nom de l'instance API Center"
+  description = "Nom de l'instance Azure API Center"
   type        = string
   default     = "apic-portal"
 }
@@ -69,8 +69,6 @@ variable "publisher_email" {
   type        = string
   default     = "admin@example.com"
 }
-
-
 
 variable "tags" {
   description = "Tags à appliquer aux ressources"
