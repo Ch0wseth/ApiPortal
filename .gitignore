@@ -36,6 +36,9 @@ service-principal-credentials.json
 # Azure
 .azure/
 
+# Azure secrets from setup script
+azure-secrets.txt
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
