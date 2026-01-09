@@ -3,12 +3,12 @@ name: Terraform Deploy
 on:
   push:
     branches:
-      - develop
+      - main
     paths:
       - 'infra/**'
   pull_request:
     branches:
-      - develop
+      - main
     paths:
       - 'infra/**'
   workflow_dispatch:
@@ -97,7 +97,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     needs: terraform-plan
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/main'
     environment:
       name: development
     
