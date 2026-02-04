@@ -10,46 +10,120 @@ variable "location" {
   default     = "francecentral"
 }
 
-variable "apim_premium_name" {
-  description = "Nom de l'instance API Management Premium"
+variable "log_analytics_workspace_name" {
+  description = "Nom du Log Analytics Workspace pour le monitoring"
   type        = string
-  default     = "apim-premium-portal"
+  default     = "law-api-portal"
 }
 
-variable "workspace1_name" {
-  description = "Nom du premier workspace APIM"
+variable "application_insights_name" {
+  description = "Nom de l'instance Application Insights pour le monitoring"
   type        = string
-  default     = "workspace-team-a"
+  default     = "appi-api-portal"
+}
+
+variable "apim_premium_name" {
+  description = "Nom de l'instance API Management Premium (Production)"
+  type        = string
+  default     = "apim-premium-portal-prod"
+}
+
+variable "apim_developer_name" {
+  description = "Nom de l'instance API Management Developer (Development)"
+  type        = string
+  default     = "apim-dev-portal-dev"
+}
+
+# Workspaces APIM Production
+variable "workspace1_name" {
+  description = "Nom du premier workspace APIM Production"
+  type        = string
+  default     = "workspace-team-a-prod"
 }
 
 variable "workspace1_display_name" {
-  description = "Nom d'affichage du premier workspace"
+  description = "Nom d'affichage du premier workspace Production"
   type        = string
-  default     = "Team A Workspace"
+  default     = "Team A Production Workspace"
 }
 
 variable "workspace1_description" {
-  description = "Description du premier workspace"
+  description = "Description du premier workspace Production"
   type        = string
-  default     = "Workspace dédié à l'équipe A"
+  default     = "Workspace de production pour l'équipe A"
 }
 
 variable "workspace2_name" {
-  description = "Nom du deuxième workspace APIM"
+  description = "Nom du deuxième workspace APIM Production"
   type        = string
-  default     = "workspace-team-b"
+  default     = "workspace-team-b-prod"
 }
 
 variable "workspace2_display_name" {
-  description = "Nom d'affichage du deuxième workspace"
+  description = "Nom d'affichage du deuxième workspace Production"
   type        = string
-  default     = "Team B Workspace"
+  default     = "Team B Production Workspace"
 }
 
 variable "workspace2_description" {
-  description = "Description du deuxième workspace"
+  description = "Description du deuxième workspace Production"
   type        = string
-  default     = "Workspace dédié à l'équipe B"
+  default     = "Workspace de production pour l'équipe B"
+}
+
+variable "workspace3_name" {
+  description = "Nom du workspace Partners (Production)"
+  type        = string
+  default     = "workspace-partners-prod"
+}
+
+variable "workspace3_display_name" {
+  description = "Nom d'affichage du workspace Partners"
+  type        = string
+  default     = "Partners Production Workspace"
+}
+
+variable "workspace3_description" {
+  description = "Description du workspace Partners"
+  type        = string
+  default     = "Workspace de production pour les APIs partenaires"
+}
+
+# Workspaces APIM Development
+variable "workspace_dev1_name" {
+  description = "Nom du premier workspace APIM Development"
+  type        = string
+  default     = "workspace-team-a-dev"
+}
+
+variable "workspace_dev1_display_name" {
+  description = "Nom d'affichage du premier workspace Development"
+  type        = string
+  default     = "Team A Development Workspace"
+}
+
+variable "workspace_dev1_description" {
+  description = "Description du premier workspace Development"
+  type        = string
+  default     = "Workspace de développement pour l'équipe A"
+}
+
+variable "workspace_dev2_name" {
+  description = "Nom du deuxième workspace APIM Development"
+  type        = string
+  default     = "workspace-team-b-dev"
+}
+
+variable "workspace_dev2_display_name" {
+  description = "Nom d'affichage du deuxième workspace Development"
+  type        = string
+  default     = "Team B Development Workspace"
+}
+
+variable "workspace_dev2_description" {
+  description = "Description du deuxième workspace Development"
+  type        = string
+  default     = "Workspace de développement pour l'équipe B"
 }
 
 variable "api_center_name" {

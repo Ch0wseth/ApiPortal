@@ -1,0 +1,92 @@
+# REQUÊTES KQL POUR APPLICATION INSIGHTS DASHBOARDS
+
+## 1. Top 10 APIs par nombre de requêtes (dernières 24h)
+requests
+| where timestamp > ago(24h)
+| summarize RequestCount = count() by operation_Name
+| top 10 by RequestCount desc
+| render barchart
+
+## 2. Temps de réponse moyen par API (dernière heure)
+requests
+| where timestamp > ago(1h)
+| summarize AvgDuration = avg(duration) by operation_Name
+| render timechart
+
+## 3. Taux d'erreur par API (dernières 24h)
+requests
+| where timestamp > ago(24h)
+| summarize 
+    TotalRequests = count(),
+    FailedRequests = countif(success == false)
+by operation_Name
+| extend ErrorRate = (FailedRequests * 100.0) / TotalRequests
+| project operation_Name, ErrorRate, TotalRequests, FailedRequests
+| order by ErrorRate desc
+
+## 4. Distribution géographique des requêtes
+requests
+| where timestamp > ago(24h)
+| summarize RequestCount = count() by client_CountryOrRegion
+| render piechart
+
+## 5. Performance sur les dernières 24h
+requests
+| where timestamp > ago(24h)
+| summarize 
+    P50 = percentile(duration, 50),
+    P95 = percentile(duration, 95),
+    P99 = percentile(duration, 99)
+by bin(timestamp, 1h)
+| render timechart
+
+## 6. Tendance du volume de requêtes
+requests
+| where timestamp > ago(7d)
+| summarize RequestCount = count() by bin(timestamp, 1h)
+| render timechart
+
+## 7. Top erreurs 4xx et 5xx
+requests
+| where timestamp > ago(24h) and success == false
+| summarize ErrorCount = count() by resultCode, operation_Name
+| order by ErrorCount desc
+| take 20
+
+## 8. Dépendances externes - Performance
+dependencies
+| where timestamp > ago(24h)
+| summarize 
+    CallCount = count(),
+    AvgDuration = avg(duration),
+    P95Duration = percentile(duration, 95)
+by target, name
+| order by CallCount desc
+
+## 9. Anomalies de trafic (détection automatique)
+requests
+| where timestamp > ago(7d)
+| make-series RequestCount = count() on timestamp step 1h
+| extend anomalies = series_decompose_anomalies(RequestCount, 1.5)
+| mv-expand timestamp, RequestCount, anomalies
+| where anomalies != 0
+
+## 10. Dashboard de santé globale
+let period = 1h;
+requests
+| where timestamp > ago(period)
+| summarize 
+    TotalRequests = count(),
+    SuccessfulRequests = countif(success == true),
+    FailedRequests = countif(success == false),
+    AvgDuration = avg(duration),
+    P95Duration = percentile(duration, 95)
+| extend 
+    SuccessRate = (SuccessfulRequests * 100.0) / TotalRequests,
+    AvgDurationSeconds = AvgDuration / 1000,
+    P95DurationSeconds = P95Duration / 1000
+| project 
+    ["Total Requests"] = TotalRequests,
+    ["Success Rate %"] = round(SuccessRate, 2),
+    ["Avg Response Time (s)"] = round(AvgDurationSeconds, 3),
+    ["P95 Response Time (s)"] = round(P95DurationSeconds, 3)
