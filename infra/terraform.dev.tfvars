@@ -1,11 +1,11 @@
 # Configuration pour l'environnement de développement
-resource_group_name          = "rg-api-portal-dev"
+resource_group_name          = "rg-api-portal-dev-2026"
 location                     = "francecentral"
-log_analytics_workspace_name = "law-api-portal-dev-1161"
-application_insights_name    = "appi-api-portal-dev-1161"
-apim_premium_name            = "apim-premium-prod-1161"
-apim_developer_name          = "apim-developer-dev-1161"
-api_center_name              = "apic-portal-dev-1161"
+log_analytics_workspace_name = "law-api-portal-dev-2026"
+application_insights_name    = "appi-api-portal-dev-2026"
+apim_premium_name            = "apim-premium-prod-2026"
+apim_developer_name          = "apim-developer-dev-2026"
+api_center_name              = "apic-portal-dev-2026"
 publisher_name               = "Organisation Dev"
 publisher_email              = "dev@votredomaine.com"
 
